@@ -15,14 +15,18 @@ import { Box } from "@mui/material";
 import React from "react";
 import "./packageStyle.css";
 
-const Packages = ({ appData, setAppData }) => {
-  const fetchName = (customerid) => {
-    // console.log(appData.customers);
-
-    const custName = appData.customers.find((cus) => cus.id === customerid);
-    console.log("custName: ", custName);
-    return custName.name;
-    // console.log(fname);
+const Packages = ({ packages, setPackages, customers }) => {
+  const nameById = (customerid) => {
+    const custName = customers.find((cus) => cus.id === customerid);
+    return custName?.name;
+  };
+  const handleDelete = async (id) => {
+    try {
+      const packagesList = packages.filter((pack) => pack.id !== id);
+      setPackages(packagesList);
+    } catch (err) {
+      console.log("Error: ", err.message);
+    }
   };
   return (
     <Box>
@@ -48,7 +52,7 @@ const Packages = ({ appData, setAppData }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {appData.packages.map((row) => {
+            {packages?.map((row) => {
               return (
                 <TableRow
                   key={row.name + row.id}
@@ -57,13 +61,18 @@ const Packages = ({ appData, setAppData }) => {
                   <TableCell component="th" scope="row">
                     {row.id}
                   </TableCell>
-                  <TableCell>{fetchName(row.customerid)}</TableCell>
+                  <TableCell>{nameById(row.customerid) ?? "No name"}</TableCell>
                   <TableCell>{row.weight}</TableCell>
 
                   <TableCell>{row.price}</TableCell>
 
                   <TableCell>
-                    <Button variant="contained">Delete</Button>
+                    <Button
+                      variant="contained"
+                      onClick={() => handleDelete(row.id)}
+                    >
+                      Delete
+                    </Button>
                     <i>Up down buttons should go here</i>
                   </TableCell>
                 </TableRow>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Box from "@mui/material/Box";
-
+import axios from "axios";
 import "./App.css";
 import Customers from "./pages/customers";
 import Packages from "./pages/packages";
@@ -11,16 +11,22 @@ import CustomDrawer from "./components/drawer/CustomDrawer";
 import Home from "./pages/home/Home";
 
 function App() {
-  const [appData, setAppData] = useState({ customers: [], packages: [] });
+  const [customers, setCustomers] = useState([]);
+  const [packages, setPackages] = useState([]);
   const [invoices, setInvoices] = useState([]);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    fetch("/data.json")
-      .then((response) => response.json())
-      .then((data) => {
-        setAppData(data);
-      });
+    axios.get("/data.json").then((res) => {
+      setCustomers(res.data.customers);
+      setPackages(res.data.packages);
+    });
+
+    // fetch("/data.json")
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     setAppData(data);
+    //   });
   }, []);
 
   return (
@@ -34,13 +40,14 @@ function App() {
             <Home />
           </Route>
           <Route exact path="/customers">
-            <Customers
-              customersData={appData.customers}
-              setAppData={setAppData}
-            />
+            <Customers customers={customers} setCustomers={setCustomers} />
           </Route>
           <Route exact path="/packages">
-            <Packages appData={appData} setAppData={setAppData} />
+            <Packages
+              packages={packages}
+              setPackages={setPackages}
+              customers={customers}
+            />
           </Route>
           <Route exact path="/invoices">
             <Invoices invoicesData={invoices} />

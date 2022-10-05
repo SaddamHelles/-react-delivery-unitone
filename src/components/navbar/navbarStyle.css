@@ -1,5 +1,9 @@
-.anchor-navbar{
+.anchor-navbar {
   text-decoration: none;
   color: #fff;
   cursor: pointer;
+}
+
+.anchor-navbar:hover {
+  color: black;
 }

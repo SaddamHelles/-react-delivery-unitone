@@ -12,23 +12,15 @@ import {
 import React, { useState, useEffect } from "react";
 import "./customersStyle.css";
 
-const Customers = ({ customersData, setAppData }) => {
-
-  const [newCust, setNewCust] = useState(customersData);
-  
-  setNewCust(customersData);
-  console.log(newCust);
-  const handleDelete = (id) => {
-    const dataList = customersData.filter((cust) => cust.id !== id);
-    setAppData((prev) => [...prev, dataList]);
+const Customers = ({ customers, setCustomers }) => {
+  const handleDelete = async (id) => {
+    try {
+      const customerList = customers.filter((cus) => cus.id !== id);
+      setCustomers(customerList);
+    } catch (err) {
+      console.log("Error: ", err.message);
+    }
   };
-  // useEffect(() => {
-  //   fetch(`/data.json/id=${id}`, {method: 'DELETE'})
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setAppData(data);
-  //     });
-  // }, []);
   return (
     <div>
       <TableContainer component={Paper}>
@@ -42,7 +34,7 @@ const Customers = ({ customersData, setAppData }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {customersData?.map((row) => {
+            {customers?.map((row) => {
               return (
                 <TableRow
                   key={row.id + row.name}

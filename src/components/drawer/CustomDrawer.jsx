@@ -14,6 +14,16 @@ const CustomDrawer = ({ open, setOpen, ...rest }) => {
       <List style={{ width: "300px" }}>
         <ListItem button>
           <Link
+            to="/"
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
+            <ListItemText primary={"Home"} />
+          </Link>
+        </ListItem>
+        <ListItem button>
+          <Link
             to="/packages"
             onClick={() => {
               setOpen(false);
