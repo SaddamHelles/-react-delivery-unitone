@@ -17,23 +17,6 @@ import './invoicesStyle.css';
 const Invoices = ({ invoicesData, setInvoices, customers, packages }) => {
 	const { search } = useLocation();
 	const { id } = queryString.parse(search);
-	console.log('values.id: ', id);
-
-	// totalValue function to  gathering values numerically for each customer
-	const totalValue = (packages, targetField, customerid) => {
-		// parseInt function was used to extract the number from weight value and gathering values numerically
-		const totalValue = packages.reduce(
-			(acc, current) =>
-				current.customerid === customerid
-					? parseInt(acc[targetField]) + parseInt(current[targetField])
-					: acc[targetField],
-			0
-		);
-		return totalValue;
-	};
-
-	// console.log('invoicesList: ', invoicesList);
-	// console.log("packages: ", packages);
 
 	useEffect(() => {
 		let newPackages = packages;
@@ -42,7 +25,7 @@ const Invoices = ({ invoicesData, setInvoices, customers, packages }) => {
 		}
 		newPackages = newPackages?.map((pack) => {
 			return {
-				customerName: customers.find((cus) => cus.id === pack.customerid).name,
+				customerName: customers.find((cus) => cus.id === pack.customerid)?.name || 'No name',
 				weight: pack.weight,
 				price: pack.price,
 				customerid: pack.customerid,

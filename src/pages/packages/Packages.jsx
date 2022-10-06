@@ -46,7 +46,6 @@ const Packages = ({ packages, setPackages, customers }) => {
 		setPackages(sortedPackage);
 		setSortFlag(!sortFlag);
 		console.log('sortedPackage: ', sortedPackage);
-		//a.shippingOrder > b.shippingOrder ? 1 : b.shippingOrder > a.shippingOrder ? -1 : 0
 	};
 
 	// Show the customer name by his id not from it object
@@ -64,12 +63,29 @@ const Packages = ({ packages, setPackages, customers }) => {
 			console.log('Error: ', err.message);
 		}
 	};
+
+	const submitHandler = (e) => {
+		e.preventDefault();
+		const { elements } = e.target;
+		console.log('Submitted: ', elements.customerid.value);
+		const newPackage = {
+			id: `pak${Math.floor(Math.random() * 1000)}`,
+			weight: elements.weight.value + 'kg',
+			customerid: +elements.customerid.value,
+			price: +elements.price.value,
+			shippingOrder: packages[packages.length - 1].shippingOrder + 1,
+		};
+		console.log('newPackage: ', newPackage);
+		setPackages((prev) => [...prev, newPackage]);
+		console.log('all packages: ', packages);
+		handleClose();
+	};
 	return (
 		<Box>
 			<TableContainer component={Paper}>
 				<Table sx={{ minWidth: 650 }} aria-label="simple table">
 					<TableHead>
-						<TableRow>
+						<TableRow sx={{ fontWeight: 'bold' }}>
 							<TableCell>id</TableCell>
 							<TableCell>Customer Name</TableCell>
 							<TableCell>Weight</TableCell>
@@ -127,39 +143,46 @@ const Packages = ({ packages, setPackages, customers }) => {
 					<DialogContentText>
 						In order to add new package you have to fill these field
 					</DialogContentText>
-					<TextField
-						autoFocus
-						margin="dense"
-						id="customerid"
-						label="Customer Id"
-						type="text"
-						fullWidth
-						variant="standard"
-					/>
-					<TextField
-						autoFocus
-						margin="dense"
-						id="weight"
-						label="Weight"
-						type="text"
-						fullWidth
-						variant="standard"
-					/>
+					<form action="/" method="POST" onSubmit={submitHandler}>
+						<TextField
+							autoFocus
+							margin="dense"
+							id="customerid"
+							name="customerid"
+							label="Customer Id"
+							type="text"
+							fullWidth
+							variant="standard"
+						/>
+						<TextField
+							autoFocus
+							margin="dense"
+							id="weight"
+							name="weight"
+							label="Weight"
+							type="number"
+							fullWidth
+							variant="standard"
+						/>
 
-					<TextField
-						autoFocus
-						margin="dense"
-						id="price"
-						label="Price"
-						type="number"
-						fullWidth
-						variant="standard"
-					/>
+						<TextField
+							autoFocus
+							margin="dense"
+							id="price"
+							name="price"
+							label="Price"
+							type="number"
+							fullWidth
+							variant="standard"
+						/>
+						<DialogActions>
+							<Button onClick={handleClose}>Cancel</Button>
+							<Button type="submit" onClick={handleClose}>
+								Add Package
+							</Button>
+						</DialogActions>
+					</form>
 				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleClose}>Cancel</Button>
-					<Button onClick={handleClose}>Add Package</Button>
-				</DialogActions>
 			</Dialog>
 		</Box>
 	);

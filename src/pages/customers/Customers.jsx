@@ -29,8 +29,8 @@ const Customers = ({ customers, setCustomers }) => {
 				<Table sx={{ minWidth: 650 }} aria-label="simple table">
 					<TableHead>
 						<TableRow>
-							<TableCell>id</TableCell>
-							<TableCell>Name</TableCell>
+							<TableCell sx={{ fontWeight: 'bold' }}>id</TableCell>
+							<TableCell sx={{ fontWeight: 'bold' }}>Name</TableCell>
 							<TableCell></TableCell>
 							<TableCell></TableCell>
 						</TableRow>
