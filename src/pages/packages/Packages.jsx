@@ -16,10 +16,22 @@ import React from "react";
 import "./packageStyle.css";
 
 const Packages = ({ packages, setPackages, customers }) => {
+  // Sorting packages array ascending by shippingOrder proparty
+  packages.sort((a, b) =>
+    a.shippingOrder > b.shippingOrder
+      ? 1
+      : b.shippingOrder > a.shippingOrder
+      ? -1
+      : 0
+  );
+
+  // Show the customer name by his id not from it object
   const nameById = (customerid) => {
     const custName = customers.find((cus) => cus.id === customerid);
     return custName?.name;
   };
+
+  // heandler of deleting packages by its packageId
   const handleDelete = async (id) => {
     try {
       const packagesList = packages.filter((pack) => pack.id !== id);

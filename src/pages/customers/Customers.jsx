@@ -13,6 +13,7 @@ import React, { useState, useEffect } from "react";
 import "./customersStyle.css";
 
 const Customers = ({ customers, setCustomers }) => {
+  // heandler of deleting customers by its customersId and reset the new data using setCustomers function
   const handleDelete = async (id) => {
     try {
       const customerList = customers.filter((cus) => cus.id !== id);

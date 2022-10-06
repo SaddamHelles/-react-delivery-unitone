@@ -50,7 +50,12 @@ function App() {
             />
           </Route>
           <Route exact path="/invoices">
-            <Invoices invoicesData={invoices} />
+            <Invoices
+              invoicesData={invoices}
+              setInvoices={setInvoices}
+              packages={packages}
+              customers={customers}
+            />
           </Route>
         </Switch>
         <CustomDrawer open={open} setOpen={setOpen} />
