@@ -13,12 +13,12 @@ import React from 'react';
 import './customersStyle.css';
 import { Link } from 'react-router-dom';
 
-const Customers = ({ customers, setCustomers }) => {
+const Customers = ({ appData, setAppData }) => {
 	// heandler of deleting customers by its customersId and reset the new data using setCustomers function
 	const handleDelete = async (id) => {
 		try {
-			const customerList = customers.filter((cus) => cus.id !== id);
-			setCustomers(customerList);
+			const customerList = appData.customers.filter((cus) => cus.id !== id);
+			setAppData({ ...appData, customers: customerList });
 		} catch (err) {
 			console.log('Error: ', err.message);
 		}
@@ -36,7 +36,7 @@ const Customers = ({ customers, setCustomers }) => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{customers?.map((row) => {
+						{appData?.customers?.map((row) => {
 							return (
 								<TableRow
 									key={row.id + row.name}

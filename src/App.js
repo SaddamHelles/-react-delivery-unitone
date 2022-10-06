@@ -11,16 +11,16 @@ import CustomDrawer from './components/drawer/CustomDrawer';
 import Home from './pages/home/Home';
 
 function App() {
-	const [customers, setCustomers] = useState([]);
-	const [packages, setPackages] = useState([]);
-	const [invoices, setInvoices] = useState([]);
+	const [appData, setAppData] = useState({ customers: [], packages: [] });
+
 	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
-		axios.get('/data.json').then((res) => {
-			setCustomers(res.data.customers);
-			setPackages(res.data.packages);
-		});
+		fetch('/data.json')
+			.then((response) => response.json())
+			.then((data) => {
+				setAppData(data);
+			});
 	}, []);
 
 	return (
@@ -34,18 +34,13 @@ function App() {
 						<Home />
 					</Route>
 					<Route exact path="/customers">
-						<Customers customers={customers} setCustomers={setCustomers} />
+						<Customers appData={appData} setAppData={setAppData} />
 					</Route>
 					<Route exact path="/packages">
-						<Packages packages={packages} setPackages={setPackages} customers={customers} />
+						<Packages appData={appData} setAppData={setAppData} />
 					</Route>
 					<Route exact path="/invoices">
-						<Invoices
-							invoicesData={invoices}
-							setInvoices={setInvoices}
-							packages={packages}
-							customers={customers}
-						/>
+						<Invoices appData={appData} />
 					</Route>
 				</Switch>
 				<CustomDrawer open={open} setOpen={setOpen} />

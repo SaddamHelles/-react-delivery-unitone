@@ -22,7 +22,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import './packagesStyle.css';
 
-const Packages = ({ packages, setPackages, customers }) => {
+const Packages = ({ appData, setAppData }) => {
 	const [open, setOpen] = React.useState(false);
 
 	// handle function to open popup modal to add new package
@@ -38,27 +38,26 @@ const Packages = ({ packages, setPackages, customers }) => {
 
 	// Sorting packages array ascending and descending by shippingOrder proparty
 	const handlerSorting = () => {
-		const sortedPackage = packages
+		const sortedPackage = appData.packages
 			.sort((a, b) =>
 				!sortFlag ? a.shippingOrder - b.shippingOrder : b.shippingOrder - a.shippingOrder
 			)
 			.map((item, i) => item);
-		setPackages(sortedPackage);
+		setAppData({ ...appData, packages: sortedPackage });
 		setSortFlag(!sortFlag);
-		console.log('sortedPackage: ', sortedPackage);
 	};
 
 	// Show the customer name by his id not from it object
 	const nameById = (customerid) => {
-		const custName = customers.find((cus) => cus.id === customerid);
+		const custName = appData.customers.find((cus) => cus.id === customerid);
 		return custName?.name;
 	};
 
 	// heandler of deleting packages by its packageId
 	const handleDelete = async (id) => {
 		try {
-			const packagesList = packages.filter((pack) => pack.id !== id);
-			setPackages(packagesList);
+			const packagesList = appData.packages.filter((pack) => pack.id !== id);
+			setAppData({ ...appData, packages: packagesList });
 		} catch (err) {
 			console.log('Error: ', err.message);
 		}
@@ -67,17 +66,15 @@ const Packages = ({ packages, setPackages, customers }) => {
 	const submitHandler = (e) => {
 		e.preventDefault();
 		const { elements } = e.target;
-		console.log('Submitted: ', elements.customerid.value);
 		const newPackage = {
 			id: `pak${Math.floor(Math.random() * 1000)}`,
 			weight: elements.weight.value + 'kg',
 			customerid: +elements.customerid.value,
 			price: +elements.price.value,
-			shippingOrder: packages[packages.length - 1].shippingOrder + 1,
+			shippingOrder: appData.packages[appData.packages.length - 1].shippingOrder + 1,
 		};
-		console.log('newPackage: ', newPackage);
-		setPackages((prev) => [...prev, newPackage]);
-		console.log('all packages: ', packages);
+
+		setAppData({ ...appData, packages: [...appData.packages, newPackage] });
 		handleClose();
 	};
 	return (
@@ -106,7 +103,7 @@ const Packages = ({ packages, setPackages, customers }) => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{packages?.map((row) => {
+						{appData.packages?.map((row) => {
 							return (
 								<TableRow
 									key={row.name + row.id}

@@ -1,6 +1,4 @@
 import {
-	Button,
-	IconButton,
 	Paper,
 	Table,
 	TableBody,
@@ -9,30 +7,32 @@ import {
 	TableHead,
 	TableRow,
 } from '@mui/material';
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { useEffect } from 'react';
 import queryString from 'query-string';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import './invoicesStyle.css';
-const Invoices = ({ invoicesData, setInvoices, customers, packages }) => {
+const Invoices = ({ appData }) => {
+	const [invoicesData, setInvoicesData] = useState([]);
 	const { search } = useLocation();
 	const { id } = queryString.parse(search);
 
 	useEffect(() => {
-		let newPackages = packages;
+		let newPackages = appData.packages;
 		if (id) {
-			newPackages = packages?.filter((pack) => pack.customerid === Number(id));
+			newPackages = appData.packages?.filter((pack) => pack.customerid === Number(id));
 		}
 		newPackages = newPackages?.map((pack) => {
 			return {
-				customerName: customers.find((cus) => cus.id === pack.customerid)?.name || 'No name',
+				customerName:
+					appData.customers.find((cus) => cus.id === pack.customerid)?.name || 'No name',
 				weight: pack.weight,
 				price: pack.price,
 				customerid: pack.customerid,
 			};
 		});
-		setInvoices(newPackages);
-	}, [packages, customers]);
+		setInvoicesData(newPackages);
+	}, [appData.packages, appData.customers]);
 	console.log('invoicesData: ', invoicesData);
 	return (
 		<Fragment>
