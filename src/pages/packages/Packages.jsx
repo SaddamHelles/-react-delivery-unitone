@@ -14,9 +14,26 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Box } from '@mui/material';
 import React, { useState } from 'react';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import './packagesStyle.css';
 
 const Packages = ({ packages, setPackages, customers }) => {
+	const [open, setOpen] = React.useState(false);
+
+	// handle function to open popup modal to add new package
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+
+	// handle function to close popup modal to add new package
+	const handleClose = () => {
+		setOpen(false);
+	};
 	const [sortFlag, setSortFlag] = useState(false);
 
 	// Sorting packages array ascending and descending by shippingOrder proparty
@@ -58,7 +75,13 @@ const Packages = ({ packages, setPackages, customers }) => {
 							<TableCell>Weight</TableCell>
 							<TableCell>Price</TableCell>
 							<TableCell>
-								<IconButton size="large" edge="start" color="inherit" aria-label="menu">
+								<IconButton
+									size="large"
+									edge="start"
+									color="inherit"
+									aria-label="menu"
+									onClick={handleClickOpen}
+								>
 									<AddIcon />
 								</IconButton>
 							</TableCell>
@@ -98,6 +121,46 @@ const Packages = ({ packages, setPackages, customers }) => {
 					</TableBody>
 				</Table>
 			</TableContainer>
+			<Dialog open={open} onClose={handleClose}>
+				<DialogTitle>New Package Form</DialogTitle>
+				<DialogContent>
+					<DialogContentText>
+						In order to add new package you have to fill these field
+					</DialogContentText>
+					<TextField
+						autoFocus
+						margin="dense"
+						id="customerid"
+						label="Customer Id"
+						type="text"
+						fullWidth
+						variant="standard"
+					/>
+					<TextField
+						autoFocus
+						margin="dense"
+						id="weight"
+						label="Weight"
+						type="text"
+						fullWidth
+						variant="standard"
+					/>
+
+					<TextField
+						autoFocus
+						margin="dense"
+						id="price"
+						label="Price"
+						type="number"
+						fullWidth
+						variant="standard"
+					/>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleClose}>Cancel</Button>
+					<Button onClick={handleClose}>Add Package</Button>
+				</DialogActions>
+			</Dialog>
 		</Box>
 	);
 };
