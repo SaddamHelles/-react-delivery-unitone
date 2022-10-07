@@ -56,7 +56,7 @@ const Invoices = ({ appData }) => {
 										{row.customerName}
 									</TableCell>
 									<TableCell>{row.weight}</TableCell>
-									<TableCell>{row.weight}</TableCell>
+									<TableCell>{row.price}</TableCell>
 								</TableRow>
 							);
 						})}

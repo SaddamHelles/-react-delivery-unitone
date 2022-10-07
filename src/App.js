@@ -12,6 +12,7 @@ import Home from './pages/home/Home';
 
 function App() {
 	const [appData, setAppData] = useState({ customers: [], packages: [] });
+	const [pageName, setPageName] = useState('Home 🏠');
 
 	const [open, setOpen] = useState(false);
 
@@ -27,7 +28,7 @@ function App() {
 		<div className="App">
 			<Router>
 				<Box sx={{ flexGrow: 1 }}>
-					<Navbar setOpen={setOpen} />
+					<Navbar setOpen={setOpen} pageName={pageName} />
 				</Box>
 				<Switch>
 					<Route exact path="/">
@@ -43,7 +44,7 @@ function App() {
 						<Invoices appData={appData} />
 					</Route>
 				</Switch>
-				<CustomDrawer open={open} setOpen={setOpen} />
+				<CustomDrawer open={open} setOpen={setOpen} setPageName={setPageName} />
 			</Router>
 		</div>
 	);

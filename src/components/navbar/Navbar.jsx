@@ -4,7 +4,7 @@ import React from 'react';
 import './navbarStyle.css';
 import { Link } from 'react-router-dom';
 
-const Navbar = ({ setOpen }) => {
+const Navbar = ({ setOpen, pageName }) => {
 	const handleDrowerOpen = () => {
 		setOpen(true);
 	};
@@ -25,6 +25,7 @@ const Navbar = ({ setOpen }) => {
 					<Link to={'/'} sx={{ textDecoration: 'none;' }} className="anchor-navbar">
 						Mail Delivery Service
 					</Link>
+					/ {pageName}
 				</Typography>
 			</Toolbar>
 		</AppBar>

@@ -14,28 +14,17 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Box } from '@mui/material';
 import React, { useState } from 'react';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import './packagesStyle.css';
+import AddPackageModal from '../../components/modal/AddPackageModal';
 
 const Packages = ({ appData, setAppData }) => {
+	const [sortFlag, setSortFlag] = useState(false);
 	const [open, setOpen] = React.useState(false);
 
 	// handle function to open popup modal to add new package
 	const handleClickOpen = () => {
 		setOpen(true);
 	};
-
-	// handle function to close popup modal to add new package
-	const handleClose = () => {
-		setOpen(false);
-	};
-	const [sortFlag, setSortFlag] = useState(false);
-
 	// Sorting packages array ascending and descending by shippingOrder proparty
 	const handlerSorting = () => {
 		const sortedPackage = appData.packages
@@ -63,20 +52,6 @@ const Packages = ({ appData, setAppData }) => {
 		}
 	};
 
-	const submitHandler = (e) => {
-		e.preventDefault();
-		const { elements } = e.target;
-		const newPackage = {
-			id: `pak${Math.floor(Math.random() * 1000)}`,
-			weight: elements.weight.value + 'kg',
-			customerid: +elements.customerid.value,
-			price: +elements.price.value,
-			shippingOrder: appData.packages[appData.packages.length - 1].shippingOrder + 1,
-		};
-
-		setAppData({ ...appData, packages: [...appData.packages, newPackage] });
-		handleClose();
-	};
 	return (
 		<Box>
 			<TableContainer component={Paper}>
@@ -134,53 +109,7 @@ const Packages = ({ appData, setAppData }) => {
 					</TableBody>
 				</Table>
 			</TableContainer>
-			<Dialog open={open} onClose={handleClose}>
-				<DialogTitle>New Package Form</DialogTitle>
-				<DialogContent>
-					<DialogContentText>
-						In order to add new package you have to fill these field
-					</DialogContentText>
-					<form action="/" method="POST" onSubmit={submitHandler}>
-						<TextField
-							autoFocus
-							margin="dense"
-							id="customerid"
-							name="customerid"
-							label="Customer Id"
-							type="text"
-							fullWidth
-							variant="standard"
-						/>
-						<TextField
-							autoFocus
-							margin="dense"
-							id="weight"
-							name="weight"
-							label="Weight"
-							type="number"
-							fullWidth
-							variant="standard"
-						/>
-
-						<TextField
-							autoFocus
-							margin="dense"
-							id="price"
-							name="price"
-							label="Price"
-							type="number"
-							fullWidth
-							variant="standard"
-						/>
-						<DialogActions>
-							<Button onClick={handleClose}>Cancel</Button>
-							<Button type="submit" onClick={handleClose}>
-								Add Package
-							</Button>
-						</DialogActions>
-					</form>
-				</DialogContent>
-			</Dialog>
+			<AddPackageModal appData={appData} setAppData={setAppData} setOpen={setOpen} open={open} />
 		</Box>
 	);
 };

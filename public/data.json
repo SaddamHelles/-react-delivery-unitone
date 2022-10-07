@@ -17,8 +17,12 @@
 			"name": "Pedro"
 		},
 		{
-			"id": 33,
+			"id": 3,
 			"name": "Marry"
+		},
+		{
+			"id": 6,
+			"name": "Saddam"
 		}
 	],
 	"packages": [
@@ -63,6 +67,27 @@
 			"customerid": 33,
 			"price": 846,
 			"shippingOrder": 6
+		},
+		{
+			"id": "pak7",
+			"weight": "85kg",
+			"customerid": 6,
+			"price": 579,
+			"shippingOrder": 7
+		},
+		{
+			"id": "pak8",
+			"weight": "36kg",
+			"customerid": 6,
+			"price": 231,
+			"shippingOrder": 8
+		},
+		{
+			"id": "pak9",
+			"weight": "94kg",
+			"customerid": 6,
+			"price": 654,
+			"shippingOrder": 9
 		}
 	]
 }
